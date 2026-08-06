@@ -30,9 +30,10 @@ fn verifies_a_multi_block_message() {
 #[test]
 fn rejects_the_s_plus_l_malleability() {
     // Take a valid signature and add L to its S component (the high 32 bytes).
-    // The result encodes the same signature mathematically but with a
-    // non-canonical S. The permissive `verify` would accept it; `verify_strict`
-    // must reject it, which is the whole reason we use strict verification.
+    // The result encodes the same scalar mathematically but with a
+    // non-canonical S, the classic malleability trick. Older ed25519 libraries
+    // accepted it on their permissive path; dalek 3.0 rejects it on both, and
+    // this test is the regression guard that keeps it that way.
     let key = signer(0x07);
     let message = b"malleability check";
     let sig = key.sign(message);

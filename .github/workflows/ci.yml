@@ -10,12 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      # Reads channel, targets and components from rust-toolchain.toml, so CI
+      # builds on the same compiler as local development.
+      - uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: "1.91.0"
           targets: wasm32-unknown-unknown
           components: clippy, rustfmt
       - run: cargo fmt --check
-      - run: cargo clippy -p stylus-crypto-verify --all-targets -- -D warnings
-      - run: cargo test -p stylus-crypto-verify
+      - run: cargo clippy --locked -p stylus-crypto-verify --all-targets -- -D warnings
+      - run: cargo test --locked -p stylus-crypto-verify
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: pip install brotli
       - run: ./scripts/check-size.sh

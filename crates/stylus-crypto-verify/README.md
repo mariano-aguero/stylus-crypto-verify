@@ -30,4 +30,4 @@ Malformed input (a wrong-length key or signature, a non-decompressible point) re
 
 ## License
 
-[MIT](../../LICENSE)
+[MIT](LICENSE)

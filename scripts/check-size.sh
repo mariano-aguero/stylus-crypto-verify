@@ -16,8 +16,8 @@ print(len(brotli.compress(data, quality=11)))
 PY
 )
 
-printf 'compressed contract size: %s bytes (%.1f KB), limit %s bytes\n' \
-  "$SIZE" "$(echo "scale=1; $SIZE/1024" | bc)" "$LIMIT"
+printf 'compressed contract size: %s bytes (%s KB), limit %s bytes\n' \
+  "$SIZE" "$(awk "BEGIN { printf \"%.1f\", $SIZE/1024 }")" "$LIMIT"
 
 if [ "$SIZE" -ge "$LIMIT" ]; then
   echo "over the Stylus program size limit"
