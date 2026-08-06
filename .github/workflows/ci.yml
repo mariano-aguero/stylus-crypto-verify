@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: clippy, rustfmt
+      - run: cargo fmt --check
+      - run: cargo clippy -p stylus-crypto-verify --all-targets -- -D warnings
+      - run: cargo test -p stylus-crypto-verify
+      - run: pip install brotli
+      - run: ./scripts/check-size.sh

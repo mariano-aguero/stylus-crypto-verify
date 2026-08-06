@@ -1,0 +1,22 @@
+[package]
+name = "stylus-crypto-verify"
+description = "Cheap onchain Ed25519 signature verification for Arbitrum Stylus contracts"
+keywords = ["ed25519", "stylus", "arbitrum", "signature", "no_std"]
+categories = ["cryptography", "no-std"]
+readme = "README.md"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+# Pinned exactly: this is a security dependency, and a minor bump could change
+# verification behavior (feature defaults, decompression rules). Bump on review.
+ed25519-dalek = { version = "=3.0.0", default-features = false }
+
+[dev-dependencies]
+hex = "0.4"
+# Signing is dev-only, to generate large-message and malleability fixtures
+# deterministically from fixed seeds. Not part of the published surface.
+ed25519-dalek = { version = "=3.0.0", default-features = false }

@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = ["crates/stylus-crypto-verify", "contracts/demo"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/mariano-aguero/stylus-crypto-verify"
+authors = ["Mariano Aguero"]
+
+[profile.release]
+codegen-units = 1
+strip = true
+lto = true
+panic = "abort"
+opt-level = "z"
