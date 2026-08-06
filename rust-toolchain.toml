@@ -1,3 +1,6 @@
 [toolchain]
 channel = "1.91.0"
 targets = ["wasm32-unknown-unknown"]
+# Pinned here so every environment, CI included, gets the same tooling as the
+# pinned compiler rather than whatever the runner installed for stable.
+components = ["clippy", "rustfmt"]

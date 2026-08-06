@@ -30,4 +30,4 @@ Malformed input (a wrong-length key or signature, a non-decompressible point) re
 
 ## License
 
-Licensed under either of [Apache-2.0](../../LICENSE-APACHE) or [MIT](../../LICENSE-MIT) at your option.
+[MIT](../../LICENSE)

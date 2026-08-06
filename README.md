@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/mariano-aguero/stylus-crypto-verify/actions/workflows/ci.yml/badge.svg)](https://github.com/mariano-aguero/stylus-crypto-verify/actions/workflows/ci.yml)
 [![crates.io](https://img.shields.io/crates/v/stylus-crypto-verify)](https://crates.io/crates/stylus-crypto-verify)
-[![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue)](#license)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Cheap onchain Ed25519 signature verification for Arbitrum Stylus contracts, with the WASM size findings that decide what fits.
 
@@ -47,4 +47,4 @@ Ed25519 verification, the demo contract, and the size findings are complete and 
 
 ## License
 
-Licensed under either of [Apache-2.0](LICENSE-APACHE) or [MIT](LICENSE-MIT) at your option. Contributions are accepted under the same dual license.
+[MIT](LICENSE)
