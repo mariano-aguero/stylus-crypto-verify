@@ -4,7 +4,7 @@
 [![crates.io](https://img.shields.io/crates/v/stylus-crypto-verify)](https://crates.io/crates/stylus-crypto-verify)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Cheap onchain Ed25519 signature verification for Arbitrum Stylus contracts, with the WASM size findings that decide what fits.
+Cheap onchain Ed25519 signature verification for Arbitrum Stylus contracts. Measured at **5.1x cheaper than the same verification in Solidity**, with the WASM size findings that decide what else fits.
 
 Ed25519 verification is prohibitive in Solidity and modest on [Stylus](https://arbitrum.io/stylus), where an audited Rust crate compiles to WASM. This repo ships that as a publishable `no_std` library plus a deployable demo contract.
 
@@ -12,6 +12,19 @@ Ed25519 verification is prohibitive in Solidity and modest on [Stylus](https://a
 crates/stylus-crypto-verify   the publishable library: verify_ed25519 (no_std, no stylus-sdk)
 contracts/demo                a deployable Stylus contract wrapping the library
 ```
+
+## Measured gas
+
+Verifying one Ed25519 signature, both contracts taking identical calldata, both accepting the RFC 8032 vector and rejecting a tampered message before any number was recorded:
+
+| Implementation | Gas | Relative |
+| --- | --- | --- |
+| Stylus, this crate | **136,343** | 1.0x |
+| Solidity, [chengwenxi/Ed25519](https://github.com/chengwenxi/Ed25519) | 701,492 | 5.1x more |
+
+Reproduce it with `./scripts/benchmark.sh`, which starts a local Arbitrum Nitro devnode, deploys both contracts, asserts they agree on a valid and an invalid signature, and prints the table. It needs Docker, Foundry and `cargo stylus`, but no funded wallet and no testnet.
+
+The Solidity implementation is vendored under `benchmarks/solidity/src` (Apache-2.0, unmodified apart from a thin wrapper that gives it the same ABI as the Stylus contract).
 
 ## What fits on Stylus
 
@@ -34,16 +47,17 @@ See [`crates/stylus-crypto-verify`](crates/stylus-crypto-verify) for the API. In
 ## Build and test
 
 ```bash
-cargo test                 # RFC 8032 vectors, malleability and small-order edge cases
-cargo clippy --all-targets
-./scripts/check-size.sh     # builds the demo to WASM and asserts it fits 24 KB
+cargo test -p stylus-crypto-verify   # RFC 8032 vectors, malleability and small-order edge cases
+cargo clippy -p stylus-crypto-verify --all-targets
+./scripts/check-size.sh              # builds the demo to WASM and asserts it fits 24 KB
+./scripts/benchmark.sh               # gas comparison on a local devnode
 ```
 
 The size script needs Python with the `brotli` module (`pip install brotli`), matching how Stylus measures onchain size.
 
 ## Status
 
-Ed25519 verification, the demo contract, and the size findings are complete and tested. Onchain gas benchmarks against a Solidity implementation, and the crates.io publish, are the remaining step.
+Ed25519 verification, the demo contract, the size findings and the gas benchmark are complete, tested and reproducible. Publishing the library to crates.io is the remaining step.
 
 ## License
 
